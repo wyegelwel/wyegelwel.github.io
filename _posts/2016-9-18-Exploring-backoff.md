@@ -1,4 +1,7 @@
-# Exploring backoff using simulation
+---
+layout: post
+title: Exploring backoff
+---
 
 Back off is the amount of time to wait before retrying a failed action. There are many choices for how to back off, including constant backoff (wait 10 seconds, then try again), random backoff (wait x seconds, where x is a random variable with some distribution), exponential backoff (wait exponentially longer each time you retry) and exponential random backoff (randomly select from a distrubtion that gets exponentially longer each time you retry)
 
@@ -46,32 +49,32 @@ Next, we will look more closely at the behavior of each backoff strategy. For ea
 
 First we will look at the no backoff case. As might be expected, immediately after the hotspot hits the service is overwhelmed consistently as all the clients that were part of the hotspot continue to hammer the server. 
 
-![Retries and latency for no backoff](nb_retires_latency.png)
-![Service view for no backoff](nb_time_steps.png)
+![Retries and latency for no backoff]({{site.base_url}}/images/nb_retires_latency.png)
+![Service view for no backoff]({{site.base_url}}/images/nb_time_steps.png)
 
 
 Next we look at the constant backoff case. It looks fairly simiarly to the no backoff case, however, if you look carefully you will notice that there slightly less seasonality in the requests received at each time step. This is because patterns will now be spread between 5 "buckets" instead of just 1 in the case of no back off.
 
-![Retries and latency for constant backoff](cb_retires_latency.png)
-![Service view for constant backoff](cb_time_steps.png)
+![Retries and latency for constant backoff]({{site.base_url}}/images/cb_retires_latency.png)
+![Service view for constant backoff]({{site.base_url}}/images/cb_time_steps.png)
 
 
 Below is the uniform random backoff case. There is a lot more variation in the calls received compared to the previous to. I expect this is due to random hotspots cropping up due to uniformly sampling (see the [Balls in Bins](https://en.wikipedia.org/wiki/Balls_into_bins) problem for more details) but haven't investigated further. 
 
-![Retries and latency for random backoff](rb_retires_latency.png)
-![Service view for random backoff](rb_time_steps.png)
+![Retries and latency for random backoff]({{site.base_url}}/images/rb_retires_latency.png)
+![Service view for random backoff]({{site.base_url}}/images/rb_time_steps.png)
 
 
 Next is exponential backoff case. Here we see the system responding much better to large burst. The interesting aspect here is that requests become seasonal following the initial hotspot and look like aftershocks following an earthquake. This can be very dangerous to a system's health if the each "aftershock" further stresses the servers. In our model it isn't particularly dangerous.
 
-![Retries and latency for exponential backoff](eb_retires_latency.png)
-![Service view for exponential backoff](eb_time_steps.png)
+![Retries and latency for exponential backoff]({{site.base_url}}/images/eb_retires_latency.png)
+![Service view for exponential backoff]({{site.base_url}}/images/eb_time_steps.png)
 
 
 Finally there is random exponential back off. This looks quite similar to the exponential backoff case but there is no longer the seasonal component. 
 
-![Retries and latency for random exponential backoff](reb_retires_latency.png)
-![Service view for random exponential backoff](reb_time_steps.png)
+![Retries and latency for random exponential backoff]({{site.base_url}}/images/reb_retires_latency.png)
+![Service view for random exponential backoff]({{site.base_url}}/images/reb_time_steps.png)
 
 
 
