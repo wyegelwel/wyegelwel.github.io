@@ -25,6 +25,7 @@ Below is a figure showing an example of when clients made their *first* request.
 The experiment is set up such that we run for 3000 time steps, the first 1000 time steps the clients send requests and the remaining 2000 time steps allow the service to finish processing requests. The service may process 5 requests at a time and each request takes 5 time steps (as long as the service is not overwhelmed). 800 clients are created, and 20% of them contribute to the initial spike, the remaining 80% have their first request uniformly randomly spread throughout the first 1000 time steps. If the service is already processing 5 requests when another arrives, it will wait 1 time step before informing the client that the request has failed and it must try again. The service is considered overwhelmed when it is processing more than 25 requests. These numbers were selected such that the service will be drastically overwhelmed in order to see how it returns to a steady state. The numbers were kept low to make it slightly easier to reason about. Similar results are seen when scaling the numbers. 
 
 We consider the following backoff strategies:
+
 * No backoff (**NB**), retry immediately 
 * Constant backoff (**CB**), retry after 5 ticks 
 * Uniformly random backoff (**URB**), retry after x ticks where x ~ U(0,5)  
