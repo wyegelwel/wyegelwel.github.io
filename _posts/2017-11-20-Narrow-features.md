@@ -17,7 +17,7 @@ Consider the following equivalent expressions that set up the configuration for 
 (map (partial generate-model-config default-config :slowdown-rate) 
      rates)
 
-(map #(assoc generate-model-config default-config :slowdown-rate %) 
+(map #(generate-model-config default-config :slowdown-rate %) 
      rates)
 ```
 
@@ -87,9 +87,12 @@ If we want to understand why we are missing data, we need to read the reducing f
 You may want to use reduce if:
 1. Shoe-horning your implementation into the narrower higher order functions is difficult or impossible
 2. Performance is (actually) critical
- 
- 
-### Other applications
 
-1. `when` instead of `if`
-2. Avoid `loop-recur` 
+### Avoid `loop recur`
+
+`loop` is similar to `reduce` in that it can be used to implement other higher order functions (including `reduce`!) but the intent of code that uses `loop` is even more muddled because you can do anything in a `loop` body. Often `loop recur` is used as a way to combine a complex reducing function (that should be split into multiple narrower functions) with a side effect. This is smell-y on two accounts, the first being the complex reducing function and the second being the side effect. 
+
+One case in which `loop recur` does shine is in event-driven programming, generally with `async` channels. However, even here you should be careful to check that you aren't using `loop recur` to sneak in side effects where a transducer would otherwise fit.
+
+Generally speaking, treat `loop recur` with suspicion.
+
