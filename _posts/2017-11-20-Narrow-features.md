@@ -7,31 +7,11 @@ A narrow language feature leaves little ambiguity to the intent of the code. The
 
 The rest of this post will go over applications of choosing the narrowest language feature.
 
-### Favor `partial` over the anonymous function reader macro `#(...)`. 
-
-A common use of both `partial` and `#(...)` is to curry a function for use in a higher order function. 
-
-Consider the following equivalent expressions that set up the configuration for a parameter search of a machine learning model. One uses `partial`, the other the anonymous function macro:
-
-```Clojure
-(map (partial generate-model-config default-config :slowdown-rate) 
-     rates)
-
-(map #(generate-model-config default-config :slowdown-rate %) 
-     rates)
-```
-
-When we use `(partial f a b c)`, we assure the reader that the inner function, `f` is called with parameters as listed followed by what ever additional parameters are passed to the resultant function of the `partial`. Because `partial` provides this assurance, the reader can safely glance at the inner function to understand the intent. In contrast, `#(...)`, provides no assurances; anything can be done within the anonymous function. Therefore, a reader must carefully look at the expression to know what the behavior is regardless of her expectation. 
-
-A case in which you may prefer the anonymous function is if you want to constrain the number of arguments that are passed to the resultant function. With `partial`, the resultant function validly accepts an arbitrary number of inputs (including zero!) which may be problematic depending on the context. 
-
-When the context itself constrains the number of inputs to the resultant function, such as when the resultant function is used by higher order functions, `partial` should be strictly preferred. 
-
-When writing a function, take time to consider which parameters are most likely to be curried and put them first in the parameter list to allow for `partial` to be used. Many clojure core functions already do this. 
-
 ### Avoid `reduce` unless necessary
 
-Most other higher order functions can be implemented in terms of `reduce`. This should hint to you that `reduce` is not narrow. The intent of an expression that uses `reduce` is captured in the reducing function. Therefore, the reader is forced to inspect the reducing function to determine what the expression does. 
+Most other higher order functions can be implemented in terms of `reduce`. This should hint to you that `reduce` is not narrow. 
+
+The intent of an expression that uses `reduce` is captured in the reducing function. Therefore, the reader is forced to inspect the reducing function to determine what the expression does. 
 
 Occasionally, `reduce` is used where a single narrower function could replace it. This tends to be rare because it is likely easier to write with the narrower function to begin with. For example, the below `reduce` expression can be swapped for a filter.
 
@@ -88,6 +68,32 @@ You may want to use reduce if:
 1. Shoe-horning your implementation into the narrower higher order functions is difficult or impossible
 2. Performance is (actually) critical
 
+### Favor `partial` over the anonymous function reader macro `#(...)`. 
+
+A common use of both `partial` and `#(...)` is to curry a function for use in a higher order function. 
+
+Consider the following equivalent expressions that set up the configuration for a parameter search of a machine learning model. One uses `partial`, the other the anonymous function macro:
+
+```Clojure
+(->> rates
+    (map #(generate-model-config default-config :slowdown-rate (inc %))))
+
+(->> rates
+     (map inc)
+     (map (partial generate-model-config default-config :slowdown-rate)))
+```
+
+If you read the `#(...)` version carefully, you may have noticed the `inc` on the input whereas with partial this wasn't a problem. The reason is that when we use `(partial f a b c)`, we assure the reader that the inner function is simply being curried. Because `partial` provides this assurance, the reader can safely glance at the inner function to understand the intent. In contrast, `#(...)`, provides no assurances; anything can be done within the anonymous function. Therefore, a reader must carefully look at the expression to know what the behavior is regardless of her expectation. 
+
+A case in which you may prefer the anonymous function is if you want to constrain the number of arguments that are passed to the resultant function. With `partial`, the resultant function validly accepts an arbitrary number of inputs (including zero!) which may be problematic depending on the context. 
+
+When the context itself constrains the number of inputs to the resultant function, such as when the resultant function is used by higher order functions, `partial` should be strictly preferred. 
+
+A second case to prefer `#(...)` is when the function is being applied many times and there are more than three parameters. The reason is that the implementation of `partial` switches to use `apply` with more than three parameters which drastically reduces performance.
+
+When writing a function, take time to consider which parameters are most likely to be curried and put them first in the parameter list to allow for `partial` to be used. Many clojure core functions already do this. 
+
+
 ### Avoid `loop recur`
 
 `loop` is similar to `reduce` in that it can be used to implement other higher order functions (including `reduce`!) but the intent of code that uses `loop` is even more muddled because you can do anything in a `loop` body. Often `loop recur` is used as a way to combine a complex reducing function (that should be split into multiple narrower functions) with a side effect. This is smell-y on two accounts, the first being the complex reducing function and the second being the side effect. 
@@ -95,4 +101,10 @@ You may want to use reduce if:
 One case in which `loop recur` does shine is in event-driven programming, generally with `async` channels. However, even here you should be careful to check that you aren't using `loop recur` to sneak in side effects where a transducer would otherwise fit.
 
 Generally speaking, treat `loop recur` with suspicion.
+
+### Conclusion
+
+All of these cases come down to making it clear what the intent of the expression is without having to delve deep in to the expression. Favoring narrow features makes code easier to read and understand.
+
+_A big thank you to Leif Walsh, Shams Imam, Steven Radack, Daniel Posada, and Paul Schorfheide for their feedback while writing this!_
 
