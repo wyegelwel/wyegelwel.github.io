@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Narrow language features: the case for avoiding reduce
+title: Narrow language features; the case for avoiding reduce
 ---
 
 A narrow language feature leaves little ambiguity to the intent of the code. Therefore, an experienced reader can selectively skip details of the expression without loss of understanding. In contrast, a reader is forced to carefully inspect an expression that doesn't use the narrowest feature to understand what the expression is intended to do. This principle is complementary to avoiding side-effects in your code and work best together.
