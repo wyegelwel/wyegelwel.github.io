@@ -57,7 +57,23 @@ For example, suppose we have a function that accepts a raw dataset of cab rides 
                        :destination-id :destination-location}))
         (filter :pick-up-location)
         (filter :destination-location))) 
-   
+
+;; A faster version of the threaded macro code above 
+;; was recommended by Alex Miller (@puredanger)
+;; This uses transducers which avoid making 
+;; intermediate seqs between the map and filter calls
+(defn clean-dataset
+   [cab-rides]
+   (into [] 
+         (comp 
+           (map #(assoc % :tip-percent (/ (:tip %) (:total-fare %))))
+           (map #(update % :pick-up-id location-id->location))
+           (map #(update % :destination-id location-id->location))
+           (map #(rename {:pick-up-id :pick-up-location
+                          :destination-id :destination-location}))
+           (filter :pick-up-location)
+           (filter :destination-location))
+         cab-rides)
 ```
 
 Unfortunately, when using this function,  we get back a lot less data than we expect. 
@@ -106,5 +122,7 @@ Generally speaking, treat `loop recur` with suspicion.
 
 All of these cases come down to making it clear what the intent of the expression is without having to delve deep in to the expression. Favoring narrow features makes code easier to read and understand.
 
-_A big thank you to Leif Walsh, Shams Imam, Steven Radack, Daniel Posada, and Paul Schorfheide for their feedback while writing this!_
+*The idea of reduce and loop recur being problematic language features came up during a conversation with Leif Walsh about Clojure. The idea of a narrow language feature is inspired by the use of narrow-ness to describe good names in Zach Tellman's Elements of Clojure*
+
+*A big thank you to Leif Walsh, Shams Imam, Steven Radack, Daniel Posada, and Paul Schorfheide for their feedback while writing this!*
 
