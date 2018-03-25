@@ -4,5 +4,4 @@ title: About
 permalink: /about/
 ---
 
-My name is Wil Yegelwel. I'm a recent graduate from Brown University where I studied Computer Science and Applied Math. Now, I work at [Two Sigma](http://www.twosigma.com) in the distributed systems and simulations group.  
-
+My name is Wil Yegelwel. I like distributed systems, machine learning and especially the intersection of the two. I'm a software engineer at Two Sigma working on the AI Engineering team.
