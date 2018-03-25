@@ -14,7 +14,7 @@ I worked on Cook Scheduler from 2014-2017 and was the lead engineer on the proje
 
 ### Waiter
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/-MsTfWjRLj4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/-MsTfWjRLj4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
 Waiter is a web service platform that runs, manages, and automatically scales services without requiring human intervention.
 
