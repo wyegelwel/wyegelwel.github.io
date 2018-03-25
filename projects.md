@@ -4,6 +4,22 @@ title: Projects
 permalink: /projects/
 ---
 
+### Cook Scheduler
+
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/4qAVHYqCLlc" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+Cook Scheduler is a fair batch scheduler built on Mesos that is designed for providing a great user experience when there are many users who collectively want more resources than your cluster has available at any given time. 
+
+I worked on Cook Scheduler from 2014-2017 and was the lead engineer on the project from 2016-2017. While I no longer actively work on Cook, I like to remain involved.  
+
+### Waiter
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/-MsTfWjRLj4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+Waiter is a web service platform that runs, manages, and automatically scales services without requiring human intervention.
+
+I worked on Waiter as the lead engineer in 2015, before switching to focus on Cook. 
+
 ### Snow
 
 <iframe width="100%" height="400" src="//www.youtube.com/embed/Mv0t7sKHgpU" frameborder="0" allowfullscreen=""></iframe>
