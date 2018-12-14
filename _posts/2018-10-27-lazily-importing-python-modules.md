@@ -1,3 +1,9 @@
+---
+layout: post
+title: Lazily Importing Python Modules
+---
+
+
 Recently, I found myself wanting to defer importing a python module so that it wasn't actually imported until it was explicitly used. 
 
 After quite a bit of searching I discovered TensorFlow has a [utility to lazily import modules](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/python/util/lazy_loader.py). They use it to lazily load their contrib module.
