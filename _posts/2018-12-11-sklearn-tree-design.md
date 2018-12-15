@@ -51,7 +51,7 @@ The main class for Scikit-learns design is the `DecisionTree`. The `DecisionTree
 
 While at a high level the logic is the following, the design and implementation of the `Splitter` and `Criterion` allows for far great performance.
 
-```python
+```Python
 for feature, threshold in possible_splits:
     criterion.evaluate(feature, threshold)
 return best_split
@@ -65,7 +65,7 @@ A `Splitter` has a public function, `node_split` that produces a `SplitRecord` w
  
 The psuedo-code is:
 
-```python
+```Python
 for feature in possible_features:
     for threshold, pos in possible_thresholds(feature):
         criterion.update(pos)
