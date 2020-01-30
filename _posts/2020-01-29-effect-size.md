@@ -33,7 +33,7 @@ Any test and effect size we pick would yield a similar shape, though the exact v
 {::options parse_block_html="true" /}
 
 <details><summary markdown="span">Code to generate the plot</summary>
-```python
+```Python
 import statsmodels.api as sm
 import numpy as np
 import matplotlib.pyplot as plt
@@ -67,7 +67,7 @@ As sample size increases, the effect size the test can discriminate against decr
 {::options parse_block_html="true" /}
 
 <details><summary markdown="span">Code to generate the plot</summary>
-```python
+```Python
 import statsmodels.api as sm
 import numpy as np
 import matplotlib.pyplot as plt
@@ -99,7 +99,7 @@ It is much harder to tell whether people from NYC have a different mean height t
 {::options parse_block_html="true" /}
 
 <details><summary markdown="span">Code to generate the plot</summary>
-```python
+```Python
 import statsmodels.api as sm
 import numpy as np
 import matplotlib.pyplot as plt
@@ -135,7 +135,7 @@ This can be understood as, more evidence is required to be more certain.
 {::options parse_block_html="true" /}
 
 <details><summary markdown="span">Code to generate the plot</summary>
-```python
+```Python
 import statsmodels.api as sm
 import numpy as np
 import matplotlib.pyplot as plt
