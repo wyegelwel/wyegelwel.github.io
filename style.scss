@@ -289,3 +289,8 @@ pre code{padding:0;color:inherit;white-space:pre;white-space:pre-wrap;background
 @import "_highlights";
 
 code{color:#d14}
+
+img + em {
+    font-size: small;
+
+}
